@@ -2,7 +2,6 @@ messages:
   main:
     settings:
       PlayerPostdelay: 60
-      TimerCheckDelay: 60
     console:
       onEnable: "The plugin is enable "
       onDisable: "The plugin is disable"
