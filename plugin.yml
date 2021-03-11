@@ -1,0 +1,8 @@
+name: NapicuTpa
+main: Main.Main
+author: Numax
+version: 1.0.0
+description: This is a player teleportation plugin
+commands:
+  tpa:
+    description: /tpa <player>

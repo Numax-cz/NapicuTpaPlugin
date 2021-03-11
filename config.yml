@@ -1,0 +1,21 @@
+messages:
+  main:
+    settings:
+      PlayerPostdelay: 60
+      TimerCheckDelay: 60
+    console:
+      onEnable: "The plugin is enable "
+      onDisable: "The plugin is disable"
+    prefix:
+      NapicuPrefix: "§8[§6NAPICU§8]§f "
+      NapicuPrefixWARN: "§8[§6NAPICU§8]§c "
+  commands:
+    tpa:
+      TpaSend: "§c{playertarget}§a sent you a tpa request §c/tpa accept {playertarget}"
+      TpaCantSend: "You can't send another invitation"
+      PlayerNotFound: "Player not found"
+      Teleport: "§aYou are teleported to §c{playertarget}"
+      TpaNotFound: "Request not found"
+      Parms1: "Use /tpa accept <player>"
+      Parms2: "Use /tpa <player>"
+      Permission: "You don't have permission"
