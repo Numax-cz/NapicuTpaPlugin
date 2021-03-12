@@ -2,13 +2,23 @@ package Main;
 
 import Listener.OnDisable;
 import Timer.TpaTimer;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent;
+import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -62,7 +72,13 @@ public class Main extends JavaPlugin {
                                 NapicuPlayersTpa.put(hrac.getName(), TargetPlayer.getName()); //<Target, User>
                                 NapicuPlayersTpaTime.put(hrac.getName(), new Date()); //<User, Date>
                                 String message = this.getConfig().getString("messages.commands.tpa.TpaSend");
-                                TargetPlayer.sendMessage(NapicuPrefix + message.replace("{playertarget}", hrac.getName()));
+                                String accept = this.getConfig().getString("messages.commands.tpa.ClickOn");
+                                IChatBaseComponent comp = IChatBaseComponent.ChatSerializer
+                                        .a("{\"text\":\"" + NapicuPrefix + message.replace("{playertarget}", hrac.getName()) + "\", \"extra\":[{\"text\":\"" + accept + "\", \"hoverEvent\":{\"action\":\"show_text\", \"value\":\"/tpa accept" + hrac.getName() + "\"}, \"clickEvent\":{\"action\":\"run_command\", \"value\":\"/tpa accept " + hrac.getName() + "\"}}]}");
+                                PacketPlayOutChat pk = new PacketPlayOutChat(comp);
+                                ((CraftPlayer)hrac).getHandle().playerConnection.sendPacket(pk);
+
+
                                 TargetPlayer.playSound(TargetPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 20);
                             }else{
                                 String message = this.getConfig().getString("messages.commands.tpa.TpaCantSend");

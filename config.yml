@@ -10,7 +10,7 @@ messages:
       NapicuPrefixWARN: "§8[§6NAPICU§8]§c "
   commands:
     tpa:
-      TpaSend: "§c{playertarget}§a sent you a tpa request §c/tpa accept {playertarget}"
+      TpaSend: "§c{playertarget}§a sent you a tpa request "
       TpaCantSend: "You can't send another invitation"
       PlayerNotFound: "Player not found"
       Teleport: "§aYou are teleported to §c{playertarget}"
@@ -18,3 +18,4 @@ messages:
       Parms1: "Use /tpa accept <player>"
       Parms2: "Use /tpa <player>"
       Permission: "You don't have permission"
+      ClickOn: "§8[§a✔§8]"
