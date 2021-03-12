@@ -18,4 +18,6 @@ messages:
       Parms1: "Use /tpa accept <player>"
       Parms2: "Use /tpa <player>"
       Permission: "You don't have permission"
-      ClickOn: "§8[§a✔§8]"
+      TpaSendPlayer: "§aYou sent an invitation to §c{playertarget}"
+      accept: "§8[§a✔§8]"
+      cancel: "§8[§aX§8]"

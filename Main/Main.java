@@ -66,28 +66,43 @@ public class Main extends JavaPlugin {
                         hrac.sendMessage(NapicuPrefixWarn + this.getConfig().getString("messages.commands.tpa.Parms2"));
                     }
                     else if(args.length == 1){ //TPA <PLAYER>
-                        Player TargetPlayer = Bukkit.getPlayer(args[0]);
-                        if(TargetPlayer != null){
-                            if(NapicuPlayersTpa.get(hrac.getName()) == null){
-                                NapicuPlayersTpa.put(hrac.getName(), TargetPlayer.getName()); //<Target, User>
-                                NapicuPlayersTpaTime.put(hrac.getName(), new Date()); //<User, Date>
-                                String message = this.getConfig().getString("messages.commands.tpa.TpaSend");
-                                String accept = this.getConfig().getString("messages.commands.tpa.ClickOn");
-                                IChatBaseComponent comp = IChatBaseComponent.ChatSerializer
-                                        .a("{\"text\":\"" + NapicuPrefix + message.replace("{playertarget}", hrac.getName()) + "\", \"extra\":[{\"text\":\"" + accept + "\", \"hoverEvent\":{\"action\":\"show_text\", \"value\":\"/tpa accept" + hrac.getName() + "\"}, \"clickEvent\":{\"action\":\"run_command\", \"value\":\"/tpa accept " + hrac.getName() + "\"}}]}");
-                                PacketPlayOutChat pk = new PacketPlayOutChat(comp);
-                                ((CraftPlayer)hrac).getHandle().playerConnection.sendPacket(pk);
+                        if(args[0].equalsIgnoreCase("cancel")){
+                            NapicuPlayersTpa.remove(hrac.getName());
+                            NapicuPlayersTpaTime.remove(hrac.getName());
+                        }else{
+                            Player TargetPlayer = Bukkit.getPlayer(args[0]);
+                            if(TargetPlayer != null){
+                                if(NapicuPlayersTpa.get(hrac.getName()) == null){
+                                    NapicuPlayersTpa.put(hrac.getName(), TargetPlayer.getName()); //<Target, User>
+                                    NapicuPlayersTpaTime.put(hrac.getName(), new Date()); //<User, Date>
+                                    String messagesent = this.getConfig().getString("messages.commands.tpa.TpaSendPlayer");
+                                    String cancel = this.getConfig().getString("messages.commands.tpa.cancel");
+                                    IChatBaseComponent c = IChatBaseComponent.ChatSerializer
+                                            .a("{\"text\":\"" + NapicuPrefix + messagesent.replace("{playertarget}", TargetPlayer.getName()) + "\", \"extra\":[{\"text\":\"" + cancel + "\", \"hoverEvent\":{\"action\":\"show_text\", \"value\":\"/tpa cancel\"}, \"clickEvent\":{\"action\":\"run_command\", \"value\":\"/tpa cancel\"}}]}");
+                                    PacketPlayOutChat p = new PacketPlayOutChat(c);
+                                    ((CraftPlayer)hrac).getHandle().playerConnection.sendPacket(p);
 
 
-                                TargetPlayer.playSound(TargetPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 20);
+                                    String message = this.getConfig().getString("messages.commands.tpa.TpaSend");
+                                    String accept = this.getConfig().getString("messages.commands.tpa.accept");
+                                    IChatBaseComponent comp = IChatBaseComponent.ChatSerializer
+                                            .a("{\"text\":\"" + NapicuPrefix + message.replace("{playertarget}", hrac.getName()) + "\", \"extra\":[{\"text\":\"" + accept + "\", \"hoverEvent\":{\"action\":\"show_text\", \"value\":\"/tpa accept " + hrac.getName() + "\"}, \"clickEvent\":{\"action\":\"run_command\", \"value\":\"/tpa accept " + hrac.getName() + "\"}}]}");
+                                    PacketPlayOutChat pk = new PacketPlayOutChat(comp);
+                                    ((CraftPlayer)TargetPlayer).getHandle().playerConnection.sendPacket(pk);
+
+
+                                    TargetPlayer.playSound(TargetPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 20);
+                                }else{
+                                    String message = this.getConfig().getString("messages.commands.tpa.TpaCantSend");
+                                    hrac.sendMessage(NapicuPrefixWarn + message);
+                                }
                             }else{
-                                String message = this.getConfig().getString("messages.commands.tpa.TpaCantSend");
+                                String message = this.getConfig().getString("messages.commands.tpa.PlayerNotFound");
                                 hrac.sendMessage(NapicuPrefixWarn + message);
                             }
-                        }else{
-                            String message = this.getConfig().getString("messages.commands.tpa.PlayerNotFound");
-                            hrac.sendMessage(NapicuPrefixWarn + message);
                         }
+
+
                     }
                     else if(args.length == 2){//TPA <ACCEPT> <PLAYER>
                         String CMD = args[0]; // <ACCEPT>
